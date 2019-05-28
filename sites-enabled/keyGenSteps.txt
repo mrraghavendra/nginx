@@ -1,0 +1,17 @@
+Create the SSL Certificate
+We can start off by creating a directory that will be used to hold all of our SSL information. We should create this under the Nginx configuration directory:
+sudo mkdir /etc/nginx/ssl
+
+Now that we have a location to place our files, we can create the SSL key and certificate files in one motion by typing:
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+
+client SSL certificate
+openssl s_client -connect 192.168.0.9:3002
+copy the key from begining to end and paste into the .crt file, that you mapped in the site-enabled conf file.
+
+Some of the issues:
+centos nginx connect() to failed (13: Permission denied) while connecting to upstream
+
+It looks like it was SELinux that was causing the problem and getting me to see a 502 Bad Gateway page.
+http://stackoverflow.com/questions/23948527/13-permission-denied-while-connecting-to-upstreamnginx
+setsebool httpd_can_network_connect on
